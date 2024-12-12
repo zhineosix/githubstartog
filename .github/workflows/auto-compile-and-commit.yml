@@ -34,7 +34,7 @@ jobs:
           LLM_BASEURL: ${{ secrets.LLM_BASEURL }}
           LLM_TOKEN: ${{ secrets.LLM_TOKEN }}
         run: |
-          go build -o ./bin/your-executable ./cmd/your-main-package
+          go build -o ./bin/starProject 
 
       - name: Execute compiled binary
         env:
@@ -42,7 +42,7 @@ jobs:
           LLM_TOKEN: ${{ secrets.LLM_TOKEN }}
           USERNAME: ${{ secrets.USERNAME }}
         run: |
-          ./bin/your-executable
+          ./bin/starProject
 
       - name: Commit all files
         # 使用 GITHUB_TOKEN 进行 git 操作
