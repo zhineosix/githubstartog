@@ -25,15 +25,16 @@ jobs:
       # 使用环境变量
       - name: Build and compile
         env:
-          LLMBASEURL: ${{ secrets.LLMBASEURL }}
-          LLM_KEY: ${{ secrets.LLM_KEY }}
+          LLM_BASEURL: ${{ secrets.LLM_BASEURL }}
+          LLM_TOKEN: ${{ secrets.LLM_TOKEN }}
         run: |
           go build -o ./bin/your-executable ./cmd/your-main-package
 
       - name: Execute compiled binary
         env:
-          LLMBASEURL: ${{ secrets.LLMBASEURL }}
-          LLM_KEY: ${{ secrets.LLM_KEY }}
+          LLM_BASEURL: ${{ secrets.LLM_BASEURL }}
+          LLM_TOKEN: ${{ secrets.LLM_TOKEN }}
+          USERNAME: ${{ secrets.USERNAME }}
         run: |
           ./bin/your-executable
 

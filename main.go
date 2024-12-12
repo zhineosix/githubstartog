@@ -49,11 +49,9 @@ func OpenaiRequest(prompt string) string {
 	if len([]rune(prompt)) > 60000 {
 		prompt = string([]rune(prompt)[:60000])
 	}
-	LLM_TOKEN := os.Getenv("LLM_TOKEN")
-	LLM_PROXY := os.Getenv("LLM_BASEURL")
 	a := []option.RequestOption{
-		option.WithAPIKey(LLM_TOKEN),
-		option.WithBaseURL(LLM_PROXY),
+		option.WithAPIKey(LLMTOKEN),
+		option.WithBaseURL(LLMBASEURL),
 	}
 	client := openai.NewClient(a...)
 	chatCompletion, err := client.Chat.Completions.New(context.TODO(), openai.ChatCompletionNewParams{
@@ -80,9 +78,8 @@ func GetReadme(redmeUrl string) *model.ReadmeData {
 	client := resty.New()
 	//client.SetProxy("http://127.0.0.1:11081")
 	url := redmeUrl + "/readme"
-	token := os.Getenv("GITHUB_TOKEN")
 	resp, err := client.R().
-		SetHeader("Authorization", "token "+token).
+		SetHeader("Authorization", "token "+gtihubToken).
 		Get(url)
 	if err != nil {
 		return nil
@@ -198,6 +195,10 @@ func Json2md(aiTagProcess []model.StarInfo) string {
 	return md
 
 }
+
+var gtihubToken = os.Getenv("GITHUB_TOKEN")
+var LLMTOKEN = os.Getenv("LLM_TOKEN")
+var LLMBASEURL = os.Getenv("LLM_BASEURL")
 
 // main 加入启动参数
 func main() {
