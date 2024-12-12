@@ -1,0 +1,7 @@
+/main_test.go
+/.idea/.gitignore
+/.idea/deployment.xml
+/.idea/githubstartog.iml
+*.exe
+/.idea/modules.xml
+/.idea/vcs.xml
