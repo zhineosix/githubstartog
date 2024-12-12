@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"github.com/openai/openai-go"
@@ -199,18 +198,23 @@ func Json2md(aiTagProcess []model.StarInfo) string {
 var gtihubToken = os.Getenv("GITHUB_TOKEN")
 var LLMTOKEN = os.Getenv("LLM_TOKEN")
 var LLMBASEURL = os.Getenv("LLM_BASEURL")
+var username = os.Getenv("USERNAME")
 
 // main 加入启动参数
 func main() {
-	// 定义命令行参数
-	username := flag.String("username", "mran", "用户名")
-	println(os.Getenv("USERNAME"))
-	println(os.Getenv("GITHUB_TOKEN"))
-	println(os.Getenv("LLM_TOKEN"))
-	println(os.Getenv("LLM_BASEURL"))
+	if len(username) == 0 {
+		panic("need username")
+	}
+	if len(gtihubToken) == 0 {
+		panic("need gtihubToken")
 
-	// 解析命令行参数
-	flag.Parse()
+	}
+	if len(LLMTOKEN) == 0 {
+		panic("need LLMTOKEN")
+	}
+	if len(LLMBASEURL) == 0 {
+		panic("need LLMBASEURL")
+	}
 
 	//分页获取用户所有的star，加入数组
 	var allStar []model.StarInfo
@@ -218,7 +222,7 @@ func main() {
 	if len(allStar) == 0 {
 		page := 1
 		for {
-			stars := FetchUserStar(*username, page)
+			stars := FetchUserStar(username, page)
 			if len(*stars) == 0 {
 				break
 			}
