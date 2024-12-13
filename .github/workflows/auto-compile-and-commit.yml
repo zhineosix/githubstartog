@@ -41,6 +41,7 @@ jobs:
           LLM_BASEURL: ${{ secrets.LLM_BASEURL }}
           LLM_TOKEN: ${{ secrets.LLM_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./bin/starProject
       - name: Copy aiTagProcess.json to web/public
