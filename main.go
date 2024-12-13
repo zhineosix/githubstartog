@@ -45,8 +45,8 @@ func FetchUserStar(user string, page int) *[]model.StarInfo {
 // openai 通用请求代码
 func OpenaiRequest(prompt string) string {
 	// 如果 prompt 的长度（以字节计）大于 65536 则截断（注意中文字符）
-	if len([]rune(prompt)) > 60000 {
-		prompt = string([]rune(prompt)[:60000])
+	if len([]rune(prompt)) > 10000 {
+		prompt = string([]rune(prompt)[:10000])
 	}
 	a := []option.RequestOption{
 		option.WithAPIKey(LLMTOKEN),
