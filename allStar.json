@@ -1,5 +1,27 @@
 [
   {
+    "name": "fuzzy-search",
+    "full_name": "m31coding/fuzzy-search",
+    "url": "https://api.github.com/repos/m31coding/fuzzy-search",
+    "html_url": "https://github.com/m31coding/fuzzy-search",
+    "description": "A fast, accurate and multilingual fuzzy search library for the frontend.",
+    "homepage": "",
+    "language": "TypeScript",
+    "topics": [
+      "fuzzy",
+      "fuzzy-search",
+      "javascript",
+      "search",
+      "string-matching",
+      "typescript"
+    ],
+    "ai_tag": {
+      "group": "",
+      "tags": null,
+      "desc": ""
+    }
+  },
+  {
     "name": "melt-ui",
     "full_name": "melt-ui/melt-ui",
     "url": "https://api.github.com/repos/melt-ui/melt-ui",
@@ -6863,7 +6885,7 @@
     "html_url": "https://github.com/microsoft/autogen",
     "description": "A programming framework for agentic AI 🤖 (PyPi: autogen-agentchat)",
     "homepage": "https://microsoft.github.io/autogen/0.4.0.dev11/",
-    "language": "Jupyter Notebook",
+    "language": "Python",
     "topics": [
       "agent-based-framework",
       "agent-oriented-programming",
