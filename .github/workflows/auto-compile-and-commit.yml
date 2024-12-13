@@ -40,9 +40,12 @@ jobs:
         env:
           LLM_BASEURL: ${{ secrets.LLM_BASEURL }}
           LLM_TOKEN: ${{ secrets.LLM_TOKEN }}
-          USERNAME: ${{ secrets.USERNAME }}
+          USERNAME: ${{ github.repository_owner }}
         run: |
           ./bin/starProject
+      - name: Copy aiTagProcess.json to web/public
+        run: |
+          cp aiTagProcess.json web/public/projects.json
 
       - name: Commit all files
         # 使用 GITHUB_TOKEN 进行 git 操作
