@@ -96,7 +96,7 @@ func GetReadme(redmeUrl string) *model.ReadmeData {
 }
 
 // 并行处理
-func ParallelProcess(data []model.StarInfo) []model.StarInfo {
+func AIParallelProcess(data []model.StarInfo) []model.StarInfo {
 
 	var wg sync.WaitGroup
 	results := make(chan model.StarInfo, len(data))
@@ -139,6 +139,7 @@ func ParallelProcess(data []model.StarInfo) []model.StarInfo {
 	}
 	return resultlist
 }
+
 func SaveMiddleResult(allStar interface{}, fileName string) {
 	//	结果写入文件
 	file, err := os.Create(fileName)
@@ -209,39 +210,37 @@ func main() {
 		panic("need gtihubToken")
 
 	}
-	if len(LLMTOKEN) == 0 {
-		panic("need LLMTOKEN")
-	}
-	if len(LLMBASEURL) == 0 {
-		panic("need LLMBASEURL")
-	}
 
 	//分页获取用户所有的star，加入数组
 	var allStar []model.StarInfo
-	allStar = readFileCache("allStar.json")
-	if len(allStar) == 0 {
-		page := 1
-		for {
-			stars := FetchUserStar(username, page)
-			if len(*stars) == 0 {
-				break
-			}
-			for _, star := range *stars {
-				println(star.FullName)
-				allStar = append(allStar, star)
-			}
-			//if len(allStar) > 30 {
-			//	break
-			//}
-			page++
+	page := 1
+	for {
+		stars := FetchUserStar(username, page)
+		if len(*stars) == 0 {
+			break
 		}
-		SaveMiddleResult(allStar, "allStar.json")
+		for _, star := range *stars {
+			println(star.FullName)
+			allStar = append(allStar, star)
+		}
+		//if len(allStar) > 30 {
+		//	break
+		//}
+		page++
 	}
+	//保存两份
+	SaveMiddleResult(allStar, "allStar.json")
+	SaveMiddleResult(allStar, "aiTagProcess.json")
+
 	var aiTagProcess []model.StarInfo
 	aiTagProcess = readFileCache("aiTagProcess.json")
-	if len(allStar) == 0 {
-		aiTagProcess := ParallelProcess(allStar)
-		SaveMiddleResult(aiTagProcess, "aiTagProcess.json")
+	//需要AI标签的处理
+	if len(LLMTOKEN) != 0 && len(LLMBASEURL) != 0 {
+		if len(allStar) != 0 {
+			aiTagProcess := AIParallelProcess(allStar)
+			SaveMiddleResult(aiTagProcess, "aiTagProcess.json")
+		}
 	}
+
 	Json2md(aiTagProcess)
 }
