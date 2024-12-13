@@ -223,9 +223,7 @@ func main() {
 			println(star.FullName)
 			allStar = append(allStar, star)
 		}
-		//if len(allStar) > 30 {
-		//	break
-		//}
+
 		page++
 	}
 	//保存两份
