@@ -1,15 +1,16 @@
 package model
 
 type StarInfo struct {
-	Name        string   `json:"name"`
-	FullName    string   `json:"full_name"`
-	Url         string   `json:"url"`
-	HtmlUrl     string   `json:"html_url"`
-	Description *string  `json:"description"`
-	Homepage    *string  `json:"homepage"`
-	Language    *string  `json:"language"`
-	Topics      []string `json:"topics"`
-	AI_tag      AI_tag   `json:"ai_tag"`
+	Name            string   `json:"name"`
+	FullName        string   `json:"full_name"`
+	Url             string   `json:"url"`
+	HtmlUrl         string   `json:"html_url"`
+	Description     *string  `json:"description"`
+	Homepage        *string  `json:"homepage"`
+	Language        *string  `json:"language"`
+	Topics          []string `json:"topics"`
+	StargazersCount int      `json:"stargazers_count"`
+	AI_tag          AI_tag   `json:"ai_tag"`
 }
 type ReadmeData struct {
 	Name        string `json:"name"`

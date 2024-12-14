@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
-import Fuse from 'fuse.js';
+import React, { useState, useEffect, useMemo } from 'react';
+import Fuse from 'fuse.js';  // 用于模糊搜索
 
 const ProjectCard = ({ project }) => {
-    const [showFullTags, setShowFullTags] = useState(false);
-    const tagContainerRef = useRef(null);
-
     // 合并不同来源的标签
     const allTags = [
         ...(project.topics || []),
@@ -29,44 +26,50 @@ const ProjectCard = ({ project }) => {
         return tagColors[tag] || 'bg-gray-500';
     };
 
-    // 检查是否需要滚动
-    const isOverflowing = () => {
-        if (tagContainerRef.current) {
-            return tagContainerRef.current.scrollHeight > tagContainerRef.current.clientHeight;
-        }
-        return false;
-    };
-
     return (
-        <div className="bg-white shadow-lg rounded-lg p-4 sm:p-6 hover:shadow-xl transition-shadow duration-300 flex flex-col">
-            <a
-                href={project.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-lg sm:text-xl font-bold text-blue-600 hover:text-blue-800 mb-2 block truncate"
-            >
-                {project.full_name}
-            </a>
-            <p className="text-gray-600 mb-3 flex-grow text-sm sm:text-base">{project.description}</p>
+        <div className="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition-shadow duration-300">
+            <div className="flex justify-between items-center mb-2">
+                <a
+                    href={project.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl font-bold text-blue-600 hover:text-blue-800 block"
+                >
+                    {project.full_name}
+                </a>
+                {project.stargazers_count !== undefined && (
+                    <div className="flex items-center text-yellow-500">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="w-5 h-5 mr-1"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                        {project.stargazers_count}
+                    </div>
+                )}
+            </div>
+            <p className="text-gray-600 mb-4">{project.description}</p>
 
             {project.homepage && (
                 <a
                     href={project.homepage}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs sm:text-sm text-blue-500 hover:text-blue-700 mb-3 block truncate"
+                    className="text-sm text-blue-500 hover:text-blue-700 mb-4 block"
                 >
                     Homepage
                 </a>
             )}
 
-            <div
-                ref={tagContainerRef}
-                className={`relative flex flex-wrap gap-2 max-h-10 overflow-hidden hover:overflow-y-auto`}
-                onMouseEnter={() => setShowFullTags(true)}
-                onMouseLeave={() => setShowFullTags(false)}
-            >
-                {allTags.slice(0, showFullTags ? allTags.length : 4).map((tag) => (
+            <div className="flex flex-wrap gap-2">
+                {allTags.map((tag) => (
                     <span
                         key={tag}
                         className={`px-2 py-1 text-xs text-white rounded ${getTagColor(tag)}`}
@@ -74,11 +77,6 @@ const ProjectCard = ({ project }) => {
             {tag}
           </span>
                 ))}
-                {!showFullTags && allTags.length > 4 && (
-                    <span className="text-xs text-gray-500 self-center">
-            +{allTags.length - 4} more
-          </span>
-                )}
             </div>
         </div>
     );
@@ -175,23 +173,23 @@ const ProjectShowcase = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 py-6 sm:py-10 px-4">
+        <div className="min-h-screen bg-gray-100 py-10 px-4">
             <div className="container mx-auto">
-                <h1 className="text-2xl sm:text-4xl font-bold text-center mb-6 sm:mb-8 text-gray-800">
+                <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
                     My GitHub Project Collection
                 </h1>
 
-                <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row gap-4">
+                <div className="mb-6 flex flex-col md:flex-row gap-4">
                     <input
                         type="text"
                         placeholder="Search projects (fuzzy search)..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="flex-grow px-3 py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
-                <div className="mb-4 sm:mb-6 flex flex-wrap gap-2">
+                <div className="mb-6 flex flex-wrap gap-2">
                     {topTags.map(tag => (
                         <button
                             key={tag}
@@ -202,7 +200,7 @@ const ProjectShowcase = () => {
                                         : [...prev, tag]
                                 )
                             }
-                            className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm 
+                            className={`px-3 py-1 rounded-full text-sm 
                 ${selectedTags.includes(tag)
                                 ? 'bg-blue-500 text-white'
                                 : 'bg-gray-200 text-gray-700'
@@ -213,14 +211,14 @@ const ProjectShowcase = () => {
                     ))}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredProjects.map(project => (
                         <ProjectCard key={project.full_name} project={project} />
                     ))}
                 </div>
 
                 {filteredProjects.length === 0 && (
-                    <div className="text-center text-gray-500 mt-10 text-sm sm:text-base">
+                    <div className="text-center text-gray-500 mt-10">
                         No projects found matching your search
                     </div>
                 )}
