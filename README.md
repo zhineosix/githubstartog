@@ -10,6 +10,6 @@ GithubStartog uses the Github API to get the starred projects of a user, generat
 ## How to use
 
 1. Fork this project
-2. Enable Github Actions in `settings` > `Actions` > `General`
+2. Enable Github Actions in `settings` > `Actions` > `General`>`Read and write permissions`
 3. Wait for Github Actions to finish building
 4. Deploy with Cloudflare Pages
