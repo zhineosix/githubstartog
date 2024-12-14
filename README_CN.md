@@ -13,5 +13,5 @@ GithubStartog 通过 Github API 获取用户的标星项目，根据项目的标
 
 1. fork 本项目
 2. 在 `settings` > `Actions` > `General` 中，启用 Github Actions，允许读写权限
-3. 等待 Github Actions 完成构建
+3. 手动启动 Github Actions 完成构建
 4. 使用 Cloudflare Pages 部署
