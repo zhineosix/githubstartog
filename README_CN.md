@@ -2,6 +2,8 @@
   <img src="web/public/icon.webp" alt="DEMO" width="100" height="100">
 </p>
 
+[中文]("./README_CN.md") 
+
 ## 项目描述
 
 GithubStartog 通过 Github API 获取用户的标星项目，根据项目的标签，并生成一个 Markdown 文件和前端页面。
